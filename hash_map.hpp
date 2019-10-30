@@ -99,6 +99,7 @@ public:
     using const_reference = const value_type&;
     using iterator = hash_map_iterator<value_type>;
     using const_iterator = hash_map_const_iterator<value_type>;
+    using size_type = std::size_t;
 
     /// Default constructor.
     hash_map() = default;
@@ -159,7 +160,7 @@ public:
      *  Create an %hash_map consisting of copies of the elements in the
      *  list. This is linear in N (where N is @a l.size()).
      */
-    hash_map(initializer_list<value_type> l,
+    hash_map(std::initializer_list<value_type> l,
         size_type n = 0);
 
     /// Copy assignment operator.
@@ -179,7 +180,7 @@ public:
      *  that the resulting %hash_map's size is the same as the number
      *  of elements assigned.
      */
-    hash_map& operator=(initializer_list<value_type> l);
+    hash_map& operator=(std::initializer_list<value_type> l);
 
     ///  Returns the allocator object used by the %hash_map.
     allocator_type getAllocator() const noexcept;
@@ -305,11 +306,11 @@ public:
      *  Insertion requires amortized constant time.
      */
     template <typename... _Args>
-    pair<iterator, bool> try_emplace(const key_type& k, _Args&&... args);
+    std::pair<iterator, bool> try_emplace(const key_type& k, _Args&&... args);
 
     // move-capable overload
     template <typename... _Args>
-    pair<iterator, bool> try_emplace(key_type&& k, _Args&&... args);
+    std::pair<iterator, bool> try_emplace(key_type&& k, _Args&&... args);
 
     /**
      *  @brief Attempts to build and insert a std::pair into the
@@ -417,7 +418,7 @@ public:
      *
      *  Complexity similar to that of the range constructor.
      */
-    void insert(initializer_list<value_type> l);
+    void insert(std::initializer_list<value_type> l);
 
 
     /**
@@ -441,11 +442,11 @@ public:
      *  Insertion requires amortized constant time.
      */
     template <typename _Obj>
-    pair<iterator, bool> insert_or_assign(const key_type& k, _Obj&& obj);
+    std::pair<iterator, bool> insert_or_assign(const key_type& k, _Obj&& obj);
 
     // move-capable overload
     template <typename _Obj>
-    pair<iterator, bool> insert_or_assign(key_type&& k, _Obj&& obj);
+    std::pair<iterator, bool> insert_or_assign(key_type&& k, _Obj&& obj);
 
     /**
      *  @brief Attempts to insert a std::pair into the %hash_map.
