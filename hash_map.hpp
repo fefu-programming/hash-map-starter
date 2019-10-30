@@ -6,13 +6,104 @@
 
 namespace fefu
 {
+
+template<typename T>
+class allocator {
+public:
+    using size_type = std::size_t;
+    using difference_type = std::ptrdiff_t;
+    using pointer = T*;
+    using const_pointer = const T*;
+    using reference = typename std::add_lvalue_reference<T>::type;
+    using const_reference = typename std::add_lvalue_reference<const T>::type;
+    using value_type = T;
+
+    allocator() noexcept;
+    allocator(const allocator&) noexcept;
+    template <class U>
+    allocator(const allocator<U>&) noexcept;
+    ~allocator();
+
+    pointer address(reference x) const noexcept;
+    const_pointer address(const_reference x) const noexcept;
+    pointer allocate(size_type, allocator<void>::const_pointer hint = 0);
+    void deallocate(pointer p, size_type n) noexcept;
+
+    size_type max_size() const noexcept;
+    template<class U, class... Args>
+    void construct(U* p, Args&&... args); // only call constructors, w/o allocation
+    template <class U>
+    void destroy(U* p); // only call destructors
+};
+
+template<typename ValueType>
+class hash_map_iterator {
+    using iterator_category = std::forward_iterator_tag;
+    using value_type = ValueType;
+    using difference_type = std::ptrdiff_t;
+    using reference = ValueType&;
+    using pointer = ValueType*;
+
+    hash_map_iterator() noexcept;
+    hash_map_iterator(const hash_map_iterator& other) noexcept;
+
+    iterator& operator=(const iterator& other) noexcept;
+
+    reference operator*() const;
+    pointer operator->() const;
+
+    // prefix ++
+    iterator& operator++();
+    // postfix ++
+    iterator operator++(int);
+
+    bool operator==(const iterator& other) const;
+    bool operator!=(const iterator& other) const;
+};
+
+template<typename ValueType>
+class hash_map_const_iterator {
+// Shouldn't give non const references on value
+    using iterator_category = std::forward_iterator_tag;
+    using value_type = ValueType;
+    using difference_type = std::ptrdiff_t;
+    using reference = const ValueType&;
+    using pointer = const ValueType*;
+
+    hash_map_iterator() noexcept;
+    hash_map_iterator(const hash_map_iterator& other) noexcept;
+
+    iterator& operator=(const iterator& other) noexcept;
+
+    reference operator*() const;
+    pointer operator->() const;
+
+    // prefix ++
+    iterator& operator++();
+    // postfix ++
+    iterator operator++(int);
+
+    bool operator==(const iterator& other) const;
+    bool operator!=(const iterator& other) const;
+};
 template<typename K, typename T,
 	   typename Hash = std::hash<K>,
 	   typename Pred = std::equal_to<K>,
-	   typename Alloc = std::allocator<std::pair<const K, T>>>
+	   typename Alloc = allocator<std::pair<const K, T>>>
 class hash_map
 {
 public:
+    using key_type = K;
+    using mapped_type = T;
+    using hasher = Hash;
+    using key_equal = Pred;
+    using allocator_type = Alloc;
+    using value_type = std::pair<const key_type, mapped_type>;
+    using reference = value_type&;
+    using const_reference = const value_type&;
+    using iterator = hash_map_iterator<value_type>;
+    using const_iterator = hash_map_const_iterator<value_type>;
+
     /// Default constructor.
     hash_map() = default;
 
