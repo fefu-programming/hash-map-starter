@@ -44,18 +44,16 @@ class hash_map_iterator {
     hash_map_iterator() noexcept;
     hash_map_iterator(const hash_map_iterator& other) noexcept;
 
-    iterator& operator=(const iterator& other) noexcept;
-
     reference operator*() const;
     pointer operator->() const;
 
     // prefix ++
-    iterator& operator++();
+    hash_map_iterator& operator++();
     // postfix ++
-    iterator operator++(int);
+    hash_map_iterator operator++(int);
 
-    bool operator==(const iterator& other) const;
-    bool operator!=(const iterator& other) const;
+    friend bool operator==(const hash_map_iterator<ValueType>&, const hash_map_iterator<ValueType>&);
+    friend bool operator!=(const hash_map_iterator<ValueType>&, const hash_map_iterator<ValueType>&);
 };
 
 template<typename ValueType>
@@ -71,18 +69,16 @@ class hash_map_const_iterator {
     hash_map_const_iterator(const hash_map_const_iterator& other) noexcept;
     hash_map_const_iterator(const hash_map_iterator<ValueType>& other) noexcept;
 
-    iterator& operator=(const iterator& other) noexcept;
-
     reference operator*() const;
     pointer operator->() const;
 
     // prefix ++
-    iterator& operator++();
+    hash_map_const_iterator& operator++();
     // postfix ++
-    iterator operator++(int);
+    hash_map_const_iterator operator++(int);
 
-    bool operator==(const iterator& other) const;
-    bool operator!=(const iterator& other) const;
+    friend bool operator==(const hash_map_const_iterator<ValueType>&, const hash_map_const_iterator<ValueType>&);
+    friend bool operator!=(const hash_map_const_iterator<ValueType>&, const hash_map_const_iterator<ValueType>&);
 };
 template<typename K, typename T,
 	   typename Hash = std::hash<K>,
