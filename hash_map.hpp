@@ -35,6 +35,7 @@ public:
 
 template<typename ValueType>
 class hash_map_iterator {
+public:
     using iterator_category = std::forward_iterator_tag;
     using value_type = ValueType;
     using difference_type = std::ptrdiff_t;
@@ -59,6 +60,7 @@ class hash_map_iterator {
 template<typename ValueType>
 class hash_map_const_iterator {
 // Shouldn't give non const references on value
+public:
     using iterator_category = std::forward_iterator_tag;
     using value_type = ValueType;
     using difference_type = std::ptrdiff_t;
