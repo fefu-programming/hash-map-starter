@@ -3,6 +3,7 @@
 #include <functional>
 #include <memory>
 #include <utility>
+#include <type_traits>
 
 namespace fefu
 {
@@ -26,14 +27,8 @@ public:
 
     pointer address(reference x) const noexcept;
     const_pointer address(const_reference x) const noexcept;
-    pointer allocate(size_type, allocator<void>::const_pointer hint = 0);
+    pointer allocate(size_type, const void* hint = 0);
     void deallocate(pointer p, size_type n) noexcept;
-
-    size_type max_size() const noexcept;
-    template<class U, class... Args>
-    void construct(U* p, Args&&... args); // only call constructors, w/o allocation
-    template <class U>
-    void destroy(U* p); // only call destructors
 };
 
 template<typename ValueType>
@@ -70,8 +65,9 @@ class hash_map_const_iterator {
     using reference = const ValueType&;
     using pointer = const ValueType*;
 
-    hash_map_iterator() noexcept;
-    hash_map_iterator(const hash_map_iterator& other) noexcept;
+    hash_map_const_iterator() noexcept;
+    hash_map_const_iterator(const hash_map_const_iterator& other) noexcept;
+    hash_map_const_iterator(const hash_map_iterator<ValueType>& other) noexcept;
 
     iterator& operator=(const iterator& other) noexcept;
 
@@ -691,11 +687,7 @@ public:
      */
     void reserve(size_type n);
 
-    template<typename K1, typename T1, typename Hash1, typename Pred1,
-        typename Alloc1>
-    friend bool
-    operator==(const hash_map<K1, T1, Hash1, Pred1, Alloc1>&,
-            const hash_map<K1, T1, Hash1, Pred1, Alloc1>&);
+    bool operator==(const hash_map& other) const;
 };
 
 } // namespace fefu
