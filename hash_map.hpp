@@ -20,14 +20,16 @@ public:
     using value_type = T;
 
     allocator() noexcept;
+	
     allocator(const allocator&) noexcept;
+	
     template <class U>
     allocator(const allocator<U>&) noexcept;
+	
     ~allocator();
 
-    pointer address(reference x) const noexcept;
-    const_pointer address(const_reference x) const noexcept;
-    pointer allocate(size_type, const void* hint = 0);
+    pointer allocate(size_type);
+	
     void deallocate(pointer p, size_type n) noexcept;
 };
 
