@@ -183,7 +183,7 @@ public:
     hash_map& operator=(std::initializer_list<value_type> l);
 
     ///  Returns the allocator object used by the %hash_map.
-    allocator_type getAllocator() const noexcept;
+    allocator_type get_allocator() const noexcept;
 
     // size and capacity:
 
