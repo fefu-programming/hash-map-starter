@@ -642,13 +642,6 @@ public:
     size_type bucket_count() const noexcept;
 
     /*
-    * @brief  Returns the number of elements in a given bucket.
-    * @param  n  A bucket index.
-    * @return  The number of elements in the bucket.
-    */
-    size_type bucket_size(size_type n) const;
-
-    /*
     * @brief  Returns the bucket index of a given element.
     * @param  _K  A key instance.
     * @return  The key bucket index.
