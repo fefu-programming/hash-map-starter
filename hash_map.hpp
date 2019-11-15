@@ -258,35 +258,6 @@ public:
      *  @brief Attempts to build and insert a std::pair into the
      *  %hash_map.
      *
-     *  @param  pos  An iterator that serves as a hint as to where the pair
-     *                should be inserted.
-     *  @param  args  Arguments used to generate a new pair instance (see
-     *	         std::piecewise_contruct for passing arguments to each
-    *	         part of the pair constructor).
-    *  @return An iterator that points to the element with key of the
-    *          std::pair built from @a args (may or may not be that
-    *          std::pair).
-    *
-    *  This function is not concerned about whether the insertion took place,
-    *  and thus does not return a boolean like the single-argument emplace()
-    *  does.
-    *  Note that the first parameter is only a hint and can potentially
-    *  improve the performance of the insertion process. A bad hint would
-    *  cause no gains in efficiency.
-    *
-    *  See
-    *  https://gcc.gnu.org/onlinedocs/libstdc++/manual/associative.html#containers.associative.insert_hints
-    *  for more on @a hinting.
-    *
-    *  Insertion requires amortized constant time.
-    */
-    template<typename... _Args>
-    iterator emplace_hint(const_iterator pos, _Args&&... args);
-
-    /**
-     *  @brief Attempts to build and insert a std::pair into the
-     *  %hash_map.
-     *
      *  @param k    Key to use for finding a possibly existing pair in
      *                the hash_map.
      *  @param args  Arguments used to generate the .second for a
@@ -312,42 +283,6 @@ public:
     template <typename... _Args>
     std::pair<iterator, bool> try_emplace(key_type&& k, _Args&&... args);
 
-    /**
-     *  @brief Attempts to build and insert a std::pair into the
-     *  %hash_map.
-     *
-     *  @param  hint  An iterator that serves as a hint as to where the pair
-     *                should be inserted.
-     *  @param k    Key to use for finding a possibly existing pair in
-     *                the hash_map.
-     *  @param args  Arguments used to generate the .second for a
-     *                new pair instance.
-     *  @return An iterator that points to the element with key of the
-     *          std::pair built from @a args (may or may not be that
-     *          std::pair).
-     *
-     *  This function is not concerned about whether the insertion took place,
-     *  and thus does not return a boolean like the single-argument emplace()
-     *  does. However, if insertion did not take place,
-     *  this function has no effect.
-     *  Note that the first parameter is only a hint and can potentially
-     *  improve the performance of the insertion process. A bad hint would
-     *  cause no gains in efficiency.
-     *
-     *  See
-     *  https://gcc.gnu.org/onlinedocs/libstdc++/manual/associative.html#containers.associative.insert_hints
-     *  for more on @a hinting.
-     *
-     *  Insertion requires amortized constant time.
-     */
-    template <typename... _Args>
-    iterator try_emplace(const_iterator hint, const key_type& k,
-                _Args&&... args);
-
-    // move-capable overload
-    template <typename... _Args>
-    iterator try_emplace(const_iterator hint, key_type&& k, _Args&&... args);
-
     //@{
     /**
      *  @brief Attempts to insert a std::pair into the %hash_map.
@@ -368,34 +303,6 @@ public:
     std::pair<iterator, bool> insert(const value_type& x);
 
     std::pair<iterator, bool> insert(value_type&& x);
-
-    //@}
-
-    //@{
-    /**
-     *  @brief Attempts to insert a std::pair into the %hash_map.
-     *  @param  hint  An iterator that serves as a hint as to where the
-     *                 pair should be inserted.
-     *  @param  x  Pair to be inserted (see std::make_pair for easy creation
-     *               of pairs).
-     *  @return An iterator that points to the element with key of
-     *           @a x (may or may not be the %pair passed in).
-     *
-     *  This function is not concerned about whether the insertion took place,
-     *  and thus does not return a boolean like the single-argument insert()
-     *  does.  Note that the first parameter is only a hint and can
-     *  potentially improve the performance of the insertion process.  A bad
-     *  hint would cause no gains in efficiency.
-     *
-     *  See
-     *  https://gcc.gnu.org/onlinedocs/libstdc++/manual/associative.html#containers.associative.insert_hints
-     *  for more on @a hinting.
-     *
-     *  Insertion requires amortized constant time.
-     */
-    iterator insert(const_iterator hint, const value_type& x);
-
-    iterator insert(const_iterator hint, value_type&& x);
 
     //@}
 
@@ -447,40 +354,6 @@ public:
     // move-capable overload
     template <typename _Obj>
     std::pair<iterator, bool> insert_or_assign(key_type&& k, _Obj&& obj);
-
-    /**
-     *  @brief Attempts to insert a std::pair into the %hash_map.
-     *  @param  hint  An iterator that serves as a hint as to where the
-     *                  pair should be inserted.
-     *  @param k    Key to use for finding a possibly existing pair in
-     *                the hash_map.
-     *  @param obj  Argument used to generate the .second for a pair
-     *                instance.
-     *  @return An iterator that points to the element with key of
-     *           @a x (may or may not be the %pair passed in).
-     *
-     *  This function is not concerned about whether the insertion took place,
-     *  and thus does not return a boolean like the single-argument insert()
-     *  does.
-     *  If the %pair was already in the %unordered map, the .second of
-     *  the %pair is assigned from obj.
-     *  Note that the first parameter is only a hint and can
-     *  potentially improve the performance of the insertion process.  A bad
-     *  hint would cause no gains in efficiency.
-     *
-     *  See
-     *  https://gcc.gnu.org/onlinedocs/libstdc++/manual/associative.html#containers.associative.insert_hints
-     *  for more on @a hinting.
-     *
-     *  Insertion requires amortized constant time.
-     */
-    template <typename _Obj>
-    iterator insert_or_assign(const_iterator hint, const key_type& k,
-                        _Obj&& obj);
-
-    // move-capable overload
-    template <typename _Obj>
-    iterator insert_or_assign(const_iterator hint, key_type&& k, _Obj&& obj);
 
     //@{
     /**
